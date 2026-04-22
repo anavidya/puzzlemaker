@@ -1,0 +1,325 @@
+body {
+    margin: 0;
+    padding: 0;
+    /* Your specific RGB 13/51/82 Hex #0D3352 */
+    background-color: #0D3352; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* This prevents scrollbars from appearing */
+    overflow: hidden; 
+    width: 100vw;
+    height: 100vh;
+}
+.main-wrapper {
+    display: flex; /* This handles the side-by-side layout */
+    width: 100vw;
+    height: 100vh;
+	background: #0a1a2c;
+}
+
+
+#canvas {
+
+    top: 0;
+    left: 0;
+    /* Leave 300px on the right for the UI panel */
+    width: calc(100vw - 300px);
+    height: 100vh;
+	background: #0a1a2c;
+	display: flex;
+    flex-direction: column;
+}
+
+/* On phones, stack UI at the bottom instead */
+@media (max-width: 767px) {
+    #canvas {
+        width: 100vw;
+        height: calc(100vh - 120px);
+    }
+    #ui, #leaderboard {
+        right: 10px;
+        left: 10px;
+        width: auto;
+    }
+}
+
+#ui {
+    position: absolute;
+    top: 20px;         /* Anchored to the top */
+    right: 10px;       /* Anchored to the far right */
+    background: rgba(0, 0, 0, 0.75); /* Dark semi-transparent */
+
+    border-radius: 12px;
+    z-index: 1001;     /* Highest priority */
+    width: 250px;      /* Fixed width so they align perfectly */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+
+/* Make the reset button fill the box for easier clicking */
+button {
+    background: #056acf;;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;       /* Spans the full width of the UI box */
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+
+button:hover {
+    background: #2579b8;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* Image Styling */
+
+:root {
+    --oceanic-main: #00B5FF;
+    --oceanic-tint: #33C4FF; /* 20% lighter tint of #00B5FF */
+	--discovery-main: #000000;
+	--discovery-tint: #333333; /* 20% tint */
+	--bg-color-discovery: #f0f0f0; /* Light gray background to make the black pop */ 
+}
+
+/* The dark background overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* The Modal Box */
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    border: 4px solid var(--oceanic-main);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.modal-content h2 {
+    color: var(--oceanic-main);
+    margin-top: 0;
+}
+
+/* The Input Field */
+#player-name {
+    width: 100%;
+    padding: 12px;
+    margin: 20px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* The Submit Button */
+.submit-btn {
+    background-color: var(--oceanic-main);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: var(--oceanic-tint);
+}
+
+/* 1. Define Variables */
+:root {
+    --oceanic-main: #00B5FF;
+    --oceanic-tint: #33C4FF;
+    --discovery-main: #000000;
+    --discovery-tint: #333333;
+    --bg-color-discovery: #f0f0f0;
+}
+
+/* 2. Apply Theme Wrapper */
+/* Ensure your #ui and #leaderboard-container have the class 'theme_discovery' */
+.theme_discovery {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px;                    /* was 20px 20px 10px 5px - asymmetric was causing right shift */
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;           /* ADDED: padding stays inside width */
+}
+ 
+/* Fix global background if desired */
+body {
+    background-color: var(--bg-color-discovery);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+ 
+/* 3. The requested UL Styling */
+.theme_discovery ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+ 
+.theme_discovery ul li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-left: 4px solid var(--oceanic-main);
+    background: #f9f9f9;
+    color: var(--discovery-tint);
+    transition: transform 0.2s ease, border-left-color 0.2s ease;
+}
+ 
+.theme_discovery ul li:hover {
+    transform: translateX(5px);
+    border-left-color: var(--oceanic-tint);
+    color: var(--discovery-main);
+    background: #f0f0f0;
+}
+ 
+/* 4. Headers & Buttons */
+.theme_discovery p,
+.theme_discovery h2,
+.theme_discovery h3 {
+    color: var(--bg-color-discovery);
+    margin-top: 0;
+}
+ 
+.theme_discovery button {
+    background-color: var(--oceanic-main);
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;           /* ADDED: button stays inside parent */
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+ 
+.theme_discovery button:hover {
+    background-color: var(--oceanic-tint);
+}
+ 
+/* 5. Gallery Adjustments */
+.theme_discovery .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;           /* ADDED */
+}
+ 
+.theme_discovery .gallery img {
+    width: 100%;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    transition: transform 0.2s, border-color 0.2s;
+    display: block;
+}
+ 
+.theme_discovery .gallery img:hover {
+    transform: scale(1.05);
+    border-color: #007bff;
+}
+ 
+/* 6. Responsive Fixes */
+@media (max-width: 767px) {
+    .theme_discovery {
+        margin: 10px;
+    }
+}
+ 
+/* ===== FIXED: inner divs of #ui were jutting out ===== */
+#ui.theme_discovery > div,
+#leaderboard.theme_discovery {
+    position: static;
+    width: 100%;                      /* was 300px - too wide for parent */
+    min-width: 0;                     /* was 250px - forced overflow */
+    height: auto;                     /* was 100% - made each div fill whole panel */
+    box-sizing: border-box;           /* ADDED */
+    padding: 15px;                    /* was 20px 20px 20px 5px - asymmetric */
+    border-radius: 12px;
+    border: none !important;
+    background: transparent !important;
+    margin-bottom: 12px;              /* ADDED: spacing between cards */
+}
+ 
+#ui.theme_discovery > div:last-child {
+    margin-bottom: 0;
+}
+ 
+/* ===== FIXED: leaderboard container had its own conflicting width ===== */
+#leaderboard-container {
+    /* removed: max-width: 400px; margin: 20px auto; padding: 20px - all conflicted with parent */
+    width: 100%;
+    box-sizing: border-box;
+}
+ 
+#leaderboard-container.theme_discovery {
+    box-shadow: none;                 /* was 0 4px 15px - duplicated parent shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+ 
+.theme_discovery .lb-header {
+    display: grid;
+    grid-template-columns: 30px 1fr 60px;   /* was 50px 1fr 80px - too wide for 280px panel */
+    font-weight: bold;
+    border-bottom: 2px solid var(--oceanic-main);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+ 
+.theme_discovery .lb-row {
+    display: grid;
+    grid-template-columns: 30px 1fr 60px;   /* match header */
+    padding: 10px 0;
+    border-bottom: 2px solid var(--bg-color-discovery);
+	color: var(--oceanic-main);
+}
+ 
+.theme_discovery .lb-row:nth-child(even) {
+    background-color: var(--oceanic-main);
+	color: var( --discovery-main);
+}
+ 
+.theme_discovery .rank-1 { color: #d4af37; font-weight: bold; } /* Gold */
+.theme_discovery .rank-2 { color: #aaa;    font-weight: bold; } /* Silver */
+.theme_discovery .rank-3 { color: #b87333; font-weight: bold; } /* Bronze */
