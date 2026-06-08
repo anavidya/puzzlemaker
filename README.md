@@ -1,8 +1,10 @@
-# NOC Puzzle Maker
+# Puzzle Maker
 
-A web-based jigsaw puzzle game built for the National Oceanography Centre. Drag and drop pieces to reassemble images, race against the clock, and compete on the leaderboard.
+A web-based jigsaw puzzle game. Drag and drop pieces to reassemble images, race against the clock, and compete on the leaderboard.
 
 ## Quick Start
+
+You could either run run.bat in windows environment or open a bash terminal and run setup.sh
 
 ```bash
 git clone <repository-url>
@@ -89,7 +91,3 @@ These are installed automatically by `setup.sh`:
 
 - Python 3.8+
 - Flask
-
-## Built By
-
-The British Oceanographic Data Centre (BODC), National Oceanography Centre (NOC).
