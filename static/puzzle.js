@@ -183,9 +183,20 @@ function startPuzzle(imagePath){
 	
 	
 };
+const ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
+
 function uploadPuzzle(event) {
     const file = event.target.files[0];
     if (!file) return;
+
+    const ext = file.name.includes('.')
+        ? file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
+        : '';
+    if (!ALLOWED_IMAGE_EXTENSIONS.includes(ext)) {
+        alert('Only .jpg, .jpeg, and .png files are allowed.');
+        event.target.value = '';
+        return;
+    }
 
     const formData = new FormData();
     formData.append('image', file);

@@ -9,6 +9,18 @@ SCORE_FILE_PATH = 'leaderboard.json'
 STATIC_DIR = Path(app.root_path) / 'static'
 ALLOWED_EXTENSIONS = {'.png', '.jpg', '.jpeg'}
 
+def is_allowed_image(filename):
+    return Path(filename).suffix.lower() in ALLOWED_EXTENSIONS
+
+def is_valid_image_content(file):
+    header = file.read(8)
+    file.seek(0)
+    if header.startswith(b'\x89PNG\r\n\x1a\n'):
+        return True
+    if header[:3] == b'\xff\xd8\xff':
+        return True
+    return False
+
 def load_leaderboard():
     if not Path(SCORE_FILE_PATH).exists():
         return {}
@@ -86,9 +98,11 @@ def upload_image():
         return jsonify({"error": "No file selected"}), 400
 
     filename = secure_filename(file.filename)
-    ext = Path(filename).suffix.lower()
-    if ext not in ALLOWED_EXTENSIONS:
-        return jsonify({"error": "Only .png, .jpg, .jpeg allowed"}), 400
+    if not filename or not is_allowed_image(filename):
+        return jsonify({"error": "Only .jpg, .jpeg, and .png files are allowed"}), 400
+
+    if not is_valid_image_content(file):
+        return jsonify({"error": "File is not a valid image"}), 400
 
     STATIC_DIR.mkdir(exist_ok=True)
     dest = STATIC_DIR / filename
