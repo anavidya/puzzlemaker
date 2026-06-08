@@ -15,6 +15,8 @@
 		<div>
 			<h2>Ocean Map Puzzle</h2>
 			<p>Time: <span id="timer">0</span>s</p>
+			<input type="file" id="puzzle-upload" accept=".jpg,.jpeg,.png" hidden>
+			<button class="submit-btn" onclick="document.getElementById('puzzle-upload').click()">Add New Puzzle</button>
 			<button class="submit-btn" onclick="location.reload()">Reset Puzzle</button>
 		</div>
 		<div id="leaderboard" class="theme_discovery">

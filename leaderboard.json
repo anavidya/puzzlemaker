@@ -1,36 +1,24 @@
 {
     "map.jpg": [
         {
-            "name": "AAA",
-            "time": 108.0
-        },
-        {
-            "name": "VVV",
-            "time": 73.0
-        },
-        {
-            "name": "CCC",
-            "time": 125.0
-        },
-        {
             "name": "Vid",
             "time": 120.0
         },
         {
-            "name": "DFSDF",
+            "name": "Phillip",
             "time": 113.0
-        }
-    ],
-    "claude.png": [
-        {
-            "name": "Vidya",
-            "time": 108.0
         }
     ],
     "boaty.jpg": [
         {
             "name": "Vidya",
             "time": 354.0
+        }
+    ],
+    "boeing.jpg": [
+        {
+            "name": "Vidya",
+            "time": 220.0
         }
     ]
 }

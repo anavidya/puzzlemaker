@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', loadGallery);
 document.addEventListener('DOMContentLoaded', () => {
-    startPuzzle('/static/map.jpg');
+    fetch('/get-images')
+        .then(response => response.json())
+        .then(images => {
+            if (images.length > 0) {
+                startPuzzle(`/static/${images[0]}`);
+            }
+        })
+        .catch(err => console.error("Error loading initial puzzle:", err));
+
+    const uploadInput = document.getElementById('puzzle-upload');
+    if (uploadInput) {
+        uploadInput.addEventListener('change', uploadPuzzle);
+    }
 });
 let seconds = 0; 
 let timerInterval = null;
@@ -171,6 +183,30 @@ function startPuzzle(imagePath){
 	
 	
 };
+function uploadPuzzle(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetch('/upload', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            loadGallery();
+            startPuzzle(`/static/${data.filename}`);
+            event.target.value = '';
+        })
+        .catch(err => {
+            console.error('Upload failed:', err);
+            alert('Upload failed');
+        });
+}
+
 function loadGallery() {
 	fetch('/get-images')
 		.then(response => response.json())
@@ -186,7 +222,7 @@ function loadGallery() {
 				// Optional: Make the image clickable to load that puzzle
 				img.onclick = () => {
 					console.log("Selected puzzle:", imgName);
-					loadLeaderboard(img);
+					loadLeaderboard(imgName);
 					window.startPuzzle(`/static/${imgName}`);
 					// Add your logic here to start the game with this image
 				};

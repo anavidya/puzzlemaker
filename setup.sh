@@ -10,7 +10,7 @@ source venv/Scripts/activate
 
 # 3. Install dependencies
 echo "Installing dependencies..."
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # 4. Run
 echo "Starting the Puzzle Game..."

@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify, render_template_string, send_from_directory
+from werkzeug.utils import secure_filename
 import json
 from pathlib import Path
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 
 SCORE_FILE_PATH = 'leaderboard.json'
+STATIC_DIR = Path(app.root_path) / 'static'
+ALLOWED_EXTENSIONS = {'.png', '.jpg', '.jpeg'}
 
 def load_leaderboard():
     if not Path(SCORE_FILE_PATH).exists():
@@ -72,5 +75,34 @@ def get_images():
     ]
     print(images)
     return jsonify(images)
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['image']
+    if not file or file.filename == '':
+        return jsonify({"error": "No file selected"}), 400
+
+    filename = secure_filename(file.filename)
+    ext = Path(filename).suffix.lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        return jsonify({"error": "Only .png, .jpg, .jpeg allowed"}), 400
+
+    STATIC_DIR.mkdir(exist_ok=True)
+    dest = STATIC_DIR / filename
+
+    if dest.exists():
+        stem, suffix = dest.stem, dest.suffix
+        n = 1
+        while dest.exists():
+            dest = STATIC_DIR / f"{stem}_{n}{suffix}"
+            n += 1
+        filename = dest.name
+
+    file.save(dest)
+    return jsonify({"status": "ok", "filename": filename})
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
